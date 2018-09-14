@@ -7,6 +7,9 @@ class Results extends Component {
     constructor() {
         super();
         this.state = {posts: []};
+
+        this.addNewPost = this.addNewPost.bind(this);
+        this.deletePost = this.deletePost.bind(this);
     }
 
     componentDidMount() {
@@ -15,7 +18,7 @@ class Results extends Component {
 
     retrievePosts() {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", "/posts");
+        xhr.open("GET", "/posts", true);
 
         xhr.onreadystatechange = () => {
             if(xhr.readyState !== 4) return;
@@ -29,13 +32,32 @@ class Results extends Component {
         xhr.send();
     }
 
+    addNewPost(post) {
+        this.setState({
+            posts: this.state.posts.concat([post])
+        });
+    }
+
+    deletePost(postID) {
+        var index = this.state.posts.map(x => {
+            return x.id;
+        }).indexOf(postID);
+
+        if(index !== -1) {
+            this.state.posts.splice(index, 1);
+            this.setState({
+                posts: this.state.posts
+            });
+        }
+    }
+
     render() {
-        const listItems = this.state.posts.map((d) => <Message key={d.id} name={d.name}/>);
+        let listItems = this.state.posts.map((post) => <Message key={post.id} postID={post.id} body={post.body} removeFromParent={this.deletePost}/>);
 
         return (
             <div>
                 <p>Results</p>
-                <InputForm/>
+                <InputForm addToParent={this.addNewPost}/>
                 {listItems}
             </div>
         )
