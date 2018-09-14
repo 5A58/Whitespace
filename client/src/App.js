@@ -5,7 +5,6 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Home from './components/Home';
 import Results from './components/Results';
 import NotFound from './components/NotFound';
-import Navigation from './components/Navigation';
 import Login from './components/Login';
 import Register from "./components/Register";
 
@@ -16,7 +15,6 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    <Navigation/>
                     <Switch>
                         <Route path="/" component={Home} exact />
                         <Route path="/results" component={Results}/>
