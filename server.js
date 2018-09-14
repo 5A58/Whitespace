@@ -22,9 +22,11 @@ app.get("/posts", (req, res) => {
 });
 
 // Create new post
-app.post("/new", (req, res) => {
-    let postBody = req.body.postBody
+app.post("/posts/new", (req, res) => {
+    let postBody = req.body.postBody;
     let newPost = {"id": counter, "body": postBody};
+
+    // Add post to database
     data.push(newPost);
     counter++;
     console.log(data);
@@ -35,7 +37,7 @@ app.post("/new", (req, res) => {
 });
 
 // Delete post
-app.delete("/:id", (req, res) => {
+app.delete("/posts/:id", (req, res) => {
     var index = data.map(x => {
         return x.id;
     }).indexOf(Number(req.params.id));
@@ -44,6 +46,21 @@ app.delete("/:id", (req, res) => {
     if(index !== -1) {
         data.splice(index, 1);
     }
+    console.log(data);
+    res.sendStatus(200);
+});
+
+// Update post
+app.put("/posts/:id", (req, res) => {
+    var index = data.map(x => {
+        return x.id;
+    }).indexOf(Number(req.params.id));
+    console.log(index);
+
+    if(index !== -1) {
+        data[index].body = req.body.postBody;
+    }
+
     console.log(data);
     res.sendStatus(200);
 });

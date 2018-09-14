@@ -1,17 +1,25 @@
 import React, {Component} from 'react';
 
 class InputForm extends Component {
+    constructor() {
+        super();
 
-    addPost(e) {
-        // Do not submit form
-        e.preventDefault();
+        this.addPost = this.addPost.bind(this);
+        this.updatePost = this.updatePost.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-        let postField = document.querySelector("#postBody");
+    addPost() {
+        let postField = document.querySelector("#submitBody");
         let postBody = postField.value;
+
+        if(postBody.trim().length === 0) {
+            return false;
+        }
 
         // Create XHR
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/new", true);
+        xhr.open("POST", "/posts/new", true);
         // Define request parameters
         let parameters = JSON.stringify({postBody});
 
@@ -22,6 +30,7 @@ class InputForm extends Component {
             if(xhr.readyState !== 4) return;
             if(xhr.status !== 200) {
                 // Error!
+                return;
             }
 
             // Clear form
@@ -34,11 +43,57 @@ class InputForm extends Component {
         xhr.send(parameters);
     }
 
+    updatePost() {
+        if (this.props.postID === -1) {
+            return;
+        }
+
+        let postField = document.querySelector("#updateBody");
+        let postBody = postField.value;
+
+        if(postBody.trim().length === 0) {
+            return false;
+        }
+
+        // Create XHR
+        let xhr = new XMLHttpRequest();
+        xhr.open("PUT", "/posts/" + this.props.postID, true);
+
+        // Define request parameters
+        let parameters = JSON.stringify({postBody});
+
+        xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState !== 4) return;
+            if(xhr.status !== 200) {
+                // Error!
+                return;
+            }
+
+            // Clear form
+            postField.value = "";
+
+            // Render the post
+            this.props.updateParent(this.props.postID, postBody);
+        }
+
+        xhr.send(parameters);
+    }
+
+    handleSubmit(e) {
+        // Don't submit form
+        e.preventDefault();
+
+        // Determine which action to perform
+        if(this.props.type === "Submit") return this.addPost();
+        if(this.props.type === "Update") return this.updatePost();
+    }
+
     render() {
         return (
-            <form action="/new" method="POST" onSubmit={this.addPost.bind(this)}>
-                <input id="postBody" type="text" name="postBody" placeholder="Post"/>
-                <button>Submit</button>
+            <form action={this.props.route} method="POST" onSubmit={this.handleSubmit}>
+                <input id={this.props.type.toLowerCase() + "Body"} type="text" name="postBody" placeholder="Post"/>
+                <button>{this.props.type}</button>
             </form>
         )
     }

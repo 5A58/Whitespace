@@ -8,12 +8,13 @@ class Message extends Component {
 
     handleDelete() {
         let xhr = new XMLHttpRequest();
-        xhr.open("DELETE", "/" + this.props.postID, true)
+        xhr.open("DELETE", "/posts/" + this.props.postID, true)
 
         xhr.onreadystatechange = () => {
             if(xhr.readyState !== 4) return;
             if(xhr.status !== 200) {
                 // Error!
+                return;
             }
 
             // Delete post from page
@@ -25,7 +26,7 @@ class Message extends Component {
 
     render() {
         var messageStyle = {
-            background: "orange",
+            background: "gray",
             margin: "1em",
             position: "relative"
         };
@@ -33,17 +34,28 @@ class Message extends Component {
         var deleteButton = {
             background: "red",
             height: "100%",
-            width: "20px",
+            width: "1.5em",
             display: "inline-flex",
             justifyContent: "center",
             position: "absolute",
             right: "0"
         }
 
+        var editButton = {
+            background: "orange",
+            height: "100%",
+            width: "3.2em",
+            display: "inline-flex",
+            justifyContent: "center",
+            position: "absolute",
+            right: "1.5em"
+        }
+
         return (
             <div style={messageStyle}>
                 {this.props.body}
                 <div style={deleteButton} onClick={this.handleDelete}>X</div>
+                <div style={editButton} onClick={() => this.props.triggerUpdateForm(this.props.postID)}>EDIT</div>
             </div>
         )
     }
