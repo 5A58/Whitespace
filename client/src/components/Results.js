@@ -44,7 +44,7 @@ class Results extends Component {
 
     deletePost(postID) {
             let index = this.state.posts.map(x => {
-                return x.id;
+                return x._id;
             }).indexOf(postID);
 
             if(index !== -1) {
@@ -56,10 +56,8 @@ class Results extends Component {
 
     updatePost(postID, newBody) {
         let index = this.state.posts.map(x => {
-            return x.id;
+            return x._id;
         }).indexOf(postID);
-
-        console.log(index);
 
         if(index !== -1) {
             this.setState({
@@ -73,14 +71,16 @@ class Results extends Component {
     }
 
     render() {
-        let listItems = this.state.posts.map((post) => <Message key={post.id} postID={post.id} body={post.body} removeFromParent={this.deletePost} triggerUpdateForm={this.updateClicked}/>);
+
+        console.log(this.state.posts);
+        let listItems = this.state.posts.map((post) => <Message key={post._id} postID={post._id} body={post.body} removeFromParent={this.deletePost} triggerUpdateForm={this.updateClicked}/>);
 
         return (
             <div>
                 <p>Results</p>
                 <InputForm type="Submit" addToParent={this.addNewPost}/>
                 <InputForm postID={this.state.updatePostID} type="Update" updateParent={this.updatePost}/>
-                {listItems}
+                {listItems.reverse()}
             </div>
         )
     }

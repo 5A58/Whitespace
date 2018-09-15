@@ -52,7 +52,7 @@ class InputForm extends Component {
         let postBody = postField.value;
 
         if(postBody.trim().length === 0) {
-            return false;
+            return;
         }
 
         // Create XHR
@@ -69,6 +69,7 @@ class InputForm extends Component {
                 // Error!
                 return;
             }
+
 
             // Clear form
             postField.value = "";
