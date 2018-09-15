@@ -7,7 +7,7 @@ import Message from "./Message";
 class Results extends Component {
     constructor() {
         super();
-        this.state = {posts: [], updatePostID: -1};
+        this.state = {posts: [], updatePostID: -1, updateText: ""};
 
         this.addNewPost = this.addNewPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
@@ -66,20 +66,19 @@ class Results extends Component {
         }
     }
 
-    updateClicked(postID) {
-        this.setState({updatePostID: postID});
+    updateClicked(postID, body) {
+        this.setState({updatePostID: postID, updateText: body});
+        this.refs.updateField.refs.textfield.value = body;
     }
 
     render() {
-
-        console.log(this.state.posts);
         let listItems = this.state.posts.map((post) => <Message key={post._id} postID={post._id} body={post.body} removeFromParent={this.deletePost} triggerUpdateForm={this.updateClicked}/>);
 
         return (
             <div>
                 <p>Results</p>
                 <InputForm type="Submit" addToParent={this.addNewPost}/>
-                <InputForm postID={this.state.updatePostID} type="Update" updateParent={this.updatePost}/>
+                <InputForm ref="updateField" val={this.state.updateText} postID={this.state.updatePostID} type="Update" updateParent={this.updatePost}/>
                 {listItems.reverse()}
             </div>
         )

@@ -8,7 +8,7 @@ class Message extends Component {
 
     handleDelete() {
         let xhr = new XMLHttpRequest();
-        xhr.open("DELETE", "/posts/" + this.props.postID, true)
+        xhr.open("DELETE", "/posts/" + this.props.postID, true);
 
         xhr.onreadystatechange = () => {
             if(xhr.readyState !== 4) return;
@@ -55,7 +55,7 @@ class Message extends Component {
             <div style={messageStyle}>
                 {this.props.body}
                 <div style={deleteButton} onClick={this.handleDelete}>X</div>
-                <div style={editButton} onClick={() => this.props.triggerUpdateForm(this.props.postID)}>EDIT</div>
+                <div style={editButton} onClick={() => this.props.triggerUpdateForm(this.props.postID, this.props.body)}>EDIT</div>
             </div>
         )
     }

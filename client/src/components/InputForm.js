@@ -93,7 +93,7 @@ class InputForm extends Component {
     render() {
         return (
             <form action={this.props.route} method="POST" onSubmit={this.handleSubmit}>
-                <input id={this.props.type.toLowerCase() + "Body"} type="text" name="postBody" placeholder="Post"/>
+                <input ref="textfield" id={this.props.type.toLowerCase() + "Body"} type="text" name="postBody" placeholder="Post"/>
                 <button>{this.props.type}</button>
             </form>
         )
