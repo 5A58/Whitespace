@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import update from 'react-addons-update';
+import socketIOClient from "socket.io-client";
 import InputForm from "./InputForm";
 import Message from "./Message";
-
 
 class Results extends Component {
     constructor() {
         super();
-        this.state = {posts: [], updatePostID: -1, updateText: ""};
+        this.state = {posts: [], updatePostID: -1, updateText: "", endpoint: "localhost:5000"};
 
         this.addNewPost = this.addNewPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
@@ -16,6 +16,8 @@ class Results extends Component {
     }
 
     componentDidMount() {
+        // testing for socket connections
+        const socket = socketIOClient(this.state.endpoint);
         this.retrievePosts();
     }
 
@@ -61,7 +63,9 @@ class Results extends Component {
 
         if(index !== -1) {
             this.setState({
-                posts: update(this.state.posts, {[index]: {body: {$set: newBody}}})
+                posts: update(this.state.posts, {[index]: {body: {$set: newBody}}}),
+                updatePostID: -1,
+                updateText: ""
             })
         }
     }

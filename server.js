@@ -2,13 +2,12 @@ const express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser'),
     mongoose = require("mongoose"),
+    http = require("http"),
+    socketIO  = require("socket.io"),
     Post = require("./models/post"),
     port = process.env.PORT || 5000;
 
 const app = express();
-
-let data =[{"id": 1, "body":"test1"},{"id": 2, "body":"test2"}, {"id": 3, "body": "test3"}];
-let counter = 4;
 
 // User body-parser to extract request body
 app.use(bodyParser.urlencoded({extended: true}));
@@ -19,6 +18,23 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Connect to mongoDB
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });
+
+// Server instance
+const server = http.createServer(app);
+// Create socket using instance of server
+const io = socketIO(server);
+
+// Socket connection handler
+io.on('connection', (socket) => {
+    // socket.broadcast.emit('hi');
+    console.log(socket.id + " Connected");
+
+    socket.on('disconnect', () => {
+        console.log('A User Disconnected');
+    });
+});
+
+// ---------- ROUTES ----------
 
 // Retrieve posts
 app.get("/posts", (req, res) => {
@@ -51,7 +67,7 @@ app.post("/posts/new", (req, res) => {
 
 // Delete post
 app.delete("/posts/:id", (req, res) => {
-    Post.findOneAndDelete(req.params.id, (err) => {
+    Post.findByIdAndDelete(req.params.id, (err) => {
         if(err) {
             console.log(err);
             res.status(400).send(err.message);
@@ -75,10 +91,11 @@ app.put("/posts/:id", (req, res) => {
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
+// app.get('*', (req, res) => {
+//     console.log("Called");
+//     res.sendFile(path.join(__dirname+'/client/build/index.html'));
+// });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
