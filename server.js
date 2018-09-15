@@ -25,12 +25,12 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 // Socket connection handler
-io.on('connection', (socket) => {
+io.on("connection", (socket) => {
     // socket.broadcast.emit('hi');
     console.log(socket.id + " Connected");
 
     socket.on('disconnect', () => {
-        console.log('A User Disconnected');
+        console.log(socket.id + " Disconnected");
     });
 });
 
