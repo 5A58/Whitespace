@@ -81,8 +81,9 @@ class Results extends Component {
     }
 
     updateClicked(postID, body) {
+        this.toggleRenderUpdate();
         this.setState({updatePostID: postID, updateText: body});
-        this.refs.updateField.refs.textfield.value = body;
+        // this.refs.updateField.refs.textfield.value = body;
     }
 
     toggleRenderUpdate() {
@@ -95,13 +96,19 @@ class Results extends Component {
 
 
     render() {
+        // console.log(this.state.posts);
+        // array.sort(function(a,b){
+        //     // Turn your strings into dates, and then subtract them
+        //     // to get a value that is either negative, positive, or zero.
+        //     return new Date(b.date) - new Date(a.date);
+        // });
         let listItems = this.state.posts.map((post) => <Message key={post._id} postID={post._id} body={post.body} removeFromParent={this.deletePost} triggerUpdateForm={this.updateClicked}/>);
 
         return (
             <div>
                 <button className={"submitButton"} onClick={this.toggleRenderSubmit}>Add New Post</button>
-                {(this.state.renderSubmitField == false) ? null : <InputForm unrenderSelf={this.toggleRenderSubmit} className={"postInput"} type="Submit" addToParent={this.addNewPost}/> }
-                {(this.state.renderUpdateField == false) ? null : <InputForm  unrenderSelf={this.toggleRenderUpdate} className={"postInput"} ref="updateField" val={this.state.updateText} postID={this.state.updatePostID} type="Update" updateParent={this.updatePost}/>}
+                {(this.state.renderSubmitField === false) ? null : <InputForm unrenderSelf={this.toggleRenderSubmit} className={"postInput"} type="Submit" val="" addToParent={this.addNewPost}/> }
+                {(this.state.renderUpdateField === false) ? null : <InputForm  unrenderSelf={this.toggleRenderUpdate} className={"postInput"} ref="updateField" val={this.state.updateText} postID={this.state.updatePostID} type="Update" updateParent={this.updatePost}/>}
                 <div id={"messageContainer"}>
                     {listItems.reverse()}
                 </div>

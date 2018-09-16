@@ -6,6 +6,12 @@
   width: 50%;
   max-width: 800px;
   margin: auto;
+  // Ensure no overflow
+  white-space: pre-wrap;      /* CSS3 */
+  white-space: -moz-pre-wrap; /* Firefox */
+  white-space: -pre-wrap;     /* Opera <7 */
+  white-space: -o-pre-wrap;   /* Opera 7 */
+  word-wrap: break-word;      /* IE */
 }
 
 .message:hover {
@@ -24,7 +30,7 @@
   outline: none;
   color: #1B95E0;
   border-radius: 10%;
-  background: white;
+  background: none;
 }
 
 .deleteButton:hover, .editButton:hover {
@@ -37,4 +43,18 @@
 
 .editButton {
   right: 3.4em;
+}
+
+.arrow {
+  fill: #657786;
+  transform: rotate(90deg);
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  height: 0.75em;
+  width: 0.75em;
+}
+
+.arrow:hover {
+  fill: #1B95E0;
 }

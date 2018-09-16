@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import "../styles/input.scss";
 
 class InputForm extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
+        this.state = {inputValue: props.val};
 
         this.addPost = this.addPost.bind(this);
         this.updatePost = this.updatePost.bind(this);
@@ -88,7 +90,12 @@ class InputForm extends Component {
         xhr.send(parameters);
     }
 
-    handleSubmit(e) {
+    handleChange = (e) => {
+        this.setState({inputValue: e.target.value});
+    }
+
+
+handleSubmit(e) {
         // Don't submit form
         e.preventDefault();
 
@@ -101,7 +108,8 @@ class InputForm extends Component {
         return (
             <div id={"formContainer"}>
                 <form className={"postForm"} action={this.props.route} method="POST" onSubmit={this.handleSubmit}>
-                    <textarea className={"bodyField"} ref="textfield" id={this.props.type.toLowerCase() + "Body"} rows="4" cols="50" name="postBody" placeholder="Post"/>
+                    <textarea className={"bodyField"} ref="textfield" id={this.props.type.toLowerCase() + "Body"} rows="4" cols="50"
+                              name="postBody" placeholder="Write post here..." value={this.state.inputValue} onChange={this.handleChange}/>
                     <br/>
                     <button className={"submitButton"}>{this.props.type}</button>
                 </form>
