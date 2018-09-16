@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import "../styles/message.scss";
 
 class Message extends Component {
     constructor() {
@@ -25,37 +26,11 @@ class Message extends Component {
     }
 
     render() {
-        var messageStyle = {
-            background: "gray",
-            margin: "1em",
-            position: "relative"
-        };
-
-        var deleteButton = {
-            background: "red",
-            height: "100%",
-            width: "1.5em",
-            display: "inline-flex",
-            justifyContent: "center",
-            position: "absolute",
-            right: "0"
-        }
-
-        var editButton = {
-            background: "orange",
-            height: "100%",
-            width: "3.2em",
-            display: "inline-flex",
-            justifyContent: "center",
-            position: "absolute",
-            right: "1.5em"
-        }
-
         return (
-            <div style={messageStyle}>
+            <div className={"message"}>
                 {this.props.body}
-                <div style={deleteButton} onClick={this.handleDelete}>X</div>
-                <div style={editButton} onClick={() => this.props.triggerUpdateForm(this.props.postID, this.props.body)}>EDIT</div>
+                <button className={"deleteButton"} onClick={this.handleDelete}>X</button>
+                <button className={"editButton"} onClick={() => this.props.triggerUpdateForm(this.props.postID, this.props.body)}>Edit</button>
             </div>
         )
     }

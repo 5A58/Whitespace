@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import "../styles/input.scss";
 
 class InputForm extends Component {
     constructor() {
@@ -38,6 +39,9 @@ class InputForm extends Component {
 
             // Render the post
             this.props.addToParent(JSON.parse(xhr.responseText));
+
+            // Unrender form
+            this.props.unrenderSelf();
         }
 
         xhr.send(parameters);
@@ -76,6 +80,9 @@ class InputForm extends Component {
 
             // Render the post
             this.props.updateParent(this.props.postID, postBody);
+
+            // Unrender form
+            this.props.unrenderSelf();
         }
 
         xhr.send(parameters);
@@ -92,10 +99,13 @@ class InputForm extends Component {
 
     render() {
         return (
-            <form action={this.props.route} method="POST" onSubmit={this.handleSubmit}>
-                <input ref="textfield" id={this.props.type.toLowerCase() + "Body"} type="text" name="postBody" placeholder="Post"/>
-                <button>{this.props.type}</button>
-            </form>
+            <div id={"formContainer"}>
+                <form className={"postForm"} action={this.props.route} method="POST" onSubmit={this.handleSubmit}>
+                    <textarea className={"bodyField"} ref="textfield" id={this.props.type.toLowerCase() + "Body"} rows="4" cols="50" name="postBody" placeholder="Post"/>
+                    <br/>
+                    <button className={"submitButton"}>{this.props.type}</button>
+                </form>
+            </div>
         )
     }
 }

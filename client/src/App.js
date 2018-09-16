@@ -8,7 +8,7 @@ import NotFound from './components/NotFound';
 import Login from './components/Login';
 import Register from "./components/Register";
 
-import './App.css';
+import './App.scss';
 
 class App extends Component {
     render() {
