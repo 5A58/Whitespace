@@ -14,7 +14,8 @@ class Results extends Component {
             updateText: "",
             endpoint: "localhost:5000",
             renderUpdateField: false,
-            renderSubmitField: false};
+            renderSubmitField: false,
+            hideOverflow: false};
 
         this.addNewPost = this.addNewPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
@@ -22,6 +23,7 @@ class Results extends Component {
         this.updateClicked = this.updateClicked.bind(this);
         this.toggleRenderUpdate = this.toggleRenderUpdate.bind(this);
         this.toggleRenderSubmit = this.toggleRenderSubmit.bind(this);
+        this.toggleHideContent = this.toggleHideContent.bind(this);
     }
 
     componentDidMount() {
@@ -83,15 +85,28 @@ class Results extends Component {
     updateClicked(postID, body) {
         this.toggleRenderUpdate();
         this.setState({updatePostID: postID, updateText: body});
-        // this.refs.updateField.refs.textfield.value = body;
     }
 
     toggleRenderUpdate() {
         this.setState({renderUpdateField: !this.state.renderUpdateField});
+        this.toggleHideContent();
     }
 
     toggleRenderSubmit() {
         this.setState({renderSubmitField: !this.state.renderSubmitField});
+        this.toggleHideContent();
+    }
+
+    toggleHideContent() {
+        if(this.state.hideOverflow) {
+            // It is currently hidden
+            document.body.style.overflow = "visible";
+            this.setState({hideOverflow: false});
+        } else {
+            // It is currently visible
+            document.body.style.overflow = "hidden";
+            this.setState({hideOverflow: true});
+        }
     }
 
 

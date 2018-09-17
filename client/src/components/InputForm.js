@@ -10,6 +10,7 @@ class InputForm extends Component {
         this.addPost = this.addPost.bind(this);
         this.updatePost = this.updatePost.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDivClick = this.handleDivClick.bind(this);
     }
 
     addPost() {
@@ -95,7 +96,7 @@ class InputForm extends Component {
     }
 
 
-handleSubmit(e) {
+    handleSubmit(e) {
         // Don't submit form
         e.preventDefault();
 
@@ -104,10 +105,14 @@ handleSubmit(e) {
         if(this.props.type === "Update") return this.updatePost();
     }
 
+    handleDivClick(e) {
+        this.props.unrenderSelf();
+    }
+
     render() {
         return (
-            <div id={"formContainer"}>
-                <form className={"postForm"} action={this.props.route} method="POST" onSubmit={this.handleSubmit}>
+            <div id={"formContainer"} onClick={this.handleDivClick}>
+                <form onClick={(e) => e.stopPropagation()} className={"postForm"} action={this.props.route} method="POST" onSubmit={this.handleSubmit}>
                     <textarea className={"bodyField"} ref="textfield" id={this.props.type.toLowerCase() + "Body"} rows="4" cols="50"
                               name="postBody" placeholder="Write post here..." value={this.state.inputValue} onChange={this.handleChange}/>
                     <br/>
