@@ -48,7 +48,7 @@
 }
 
 .arrow {
-  fill: #657786;
+  fill: $arrow-color;
   transform: rotate(90deg);
   position: absolute;
   top: 1em;
@@ -59,4 +59,13 @@
 
 .arrow:hover {
   fill: $secondary-color;
+}
+
+.dateString {
+  color: $arrow-color;
+  //position: absolute;
+  //top: 1em;
+  //left: 1em;
+  font-size: 0.80em;
+  margin: 0 0 0.5em 0;
 }

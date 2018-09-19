@@ -114,7 +114,7 @@ class Results extends Component {
         const listItems = [].concat(this.state.posts)
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .map((post) =>
-                <Message key={post._id} postID={post._id} body={post.body} removeFromParent={this.deletePost} triggerUpdateForm={this.updateClicked}/>
+                <Message key={post._id} postID={post._id} body={post.body} creationDate={post.createdAt} removeFromParent={this.deletePost} triggerUpdateForm={this.updateClicked}/>
             );
 
         // let listItems = this.state.posts.map((post) => <Message key={post._id} postID={post._id} body={post.body} removeFromParent={this.deletePost} triggerUpdateForm={this.updateClicked}/>);
