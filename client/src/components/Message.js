@@ -9,6 +9,7 @@ class Message extends Component {
         this.state = {renderOptions: false};
 
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
         this.arrowClicked = this.arrowClicked.bind(this);
     }
 
@@ -68,6 +69,11 @@ class Message extends Component {
         }
     }
 
+    handleUpdate() {
+        this.setState({renderOptions: false});
+        this.props.triggerUpdateForm(this.props.postID, this.props.body);
+    }
+
     render() {
         return (
             <div className={"message"}>
@@ -76,8 +82,8 @@ class Message extends Component {
                 <svg onClick={this.arrowClicked} className={"arrow"} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
                 {(this.state.renderOptions === false) ? null :
                     <div className={"optionsContainer"}>
-                        <button className={"deleteButton"} onClick={this.handleDelete}>X</button>
-                        <button className={"editButton"} onClick={() => this.props.triggerUpdateForm(this.props.postID, this.props.body)}>Edit</button>
+                        <p className={"option"} onClick={this.handleDelete}>Delete</p>
+                        <p className={"option"} onClick={this.handleUpdate}>Edit</p>
                     </div>
                 }
             </div>
