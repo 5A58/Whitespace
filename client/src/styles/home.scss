@@ -1,3 +1,4 @@
+@import "./variables";
 @import url("https://fonts.googleapis.com/css?family=Pacifico|Roboto+Condensed");
 
 #homeContainer {
@@ -18,7 +19,7 @@
 }
 
 #title, #description {
-  color: white;
+  color: $home-content-color;
 }
 
 #title, #description {
@@ -40,9 +41,7 @@
 #resultsNav {
   font-family: 'Roboto Condensed', sans-serif;
   text-decoration: none;
-  width: 5em;
   text-align: center;
-  padding: 0.75em 1.75em;
   font-size: 1.2em;
   margin: auto;
 }
@@ -52,58 +51,94 @@
   flex-direction: column;
 }
 
-// Adopted from Giana's CodePen
-//https://codepen.io/giana/pen/xdXpJB
-@mixin btn-border-drawing($color: white, $hover: black, $width: 2px, $vertical: top, $horizontal: left, $duration: 0.25s) {
-  box-shadow: inset 0 0 0 $width $color;
-  color: $color;
-  transition: color $duration $duration/3;
+// Adopted from canvasplay's CodePen
+// https://codepen.io/canvasplay/pen/WXWobd
+$anim-text-offset: 1em;
+
+.button{
+  touch-callout: none;
+  user-select: none;
+  display: inline-block;
+  border: .2em solid;
   position: relative;
-
-  &::before,
-  &::after {
-    border: 0 solid transparent;
-    box-sizing: border-box;
-    content: '';
-    pointer-events: none;
-    position: absolute;
-    width: 0; height: 0;
-
-    #{$vertical}: 0;
-    #{$horizontal}: 0;
-  }
-
-  &::before {
-    $h-side: if($horizontal == 'left', 'right', 'left');
-
-    border-#{$vertical}-width: $width;
-    border-#{$h-side}-width: $width;
-  }
-
-  &::after {
-    $v-side: if($vertical == 'top', 'bottom', 'top');
-
-    border-#{$v-side}-width: $width;
-    border-#{$horizontal}-width: $width;
-  }
-
-  &:hover {
-    color: $hover;
-
-    &::before,
-    &::after {
-      border-color: $hover;
-      transition: border-color 0s, width $duration, height $duration;
-      width: 100%;
-      height: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0.6;
+  color: $home-content-color;
+  &__text{
+    display: block;
+    padding: 0.75em 1.75em;
+    text-transform: uppercase;
+    font-weight: bold;
+    &:before{
+      content: attr(title);
     }
-
-    &::before { transition-delay: 0s, 0s, $duration; }
-
-    &::after { transition-delay: 0s, $duration, 0s; }
+    &--bis{
+      display: block;
+      position: absolute;
+      top: 0; left:0; right: 0; bottom: 0;
+      transform: translateX(-1 * $anim-text-offset);
+      opacity: 0;
+    }
+  }
+  &__mask{
+    display: block;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: $home-content-color;
+    transform: translateX(-100%) rotate(45deg);
+    transition: all 0.3s;
   }
 }
 
-.draw-border {
-  @include btn-border-drawing(#ffffff, #000000, 4px, bottom, right);
+.button:hover{
+  opacity: 1;
+  .button__text{
+    animation: fx-text .3s ease-out;
+    &--bis{
+      animation: fx-text-bis .3s ease-out;
+    }
+  }
+  .button__mask{
+    animation: fx-mask .3s ease-out;
+  }
 }
+
+//.button:active{
+//  opacity: 1;
+//  background: $home-content-color;
+//  color: inherit;
+//}
+
+
+
+@keyframes fx-mask {
+  0%{
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100%{
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+@keyframes fx-text {
+  0%{
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100%{
+    transform: translateX($anim-text-offset);
+    opacity: 0;
+  }
+}
+@keyframes fx-text-bis {
+  0%{
+    transform: translateX(-1 * $anim-text-offset);
+    opacity: 0;
+  }
+  100%{
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+

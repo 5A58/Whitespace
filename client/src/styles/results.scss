@@ -1,3 +1,30 @@
+@import "./variables";
+
 #messageContainer {
   margin-top: 1em;
+}
+
+#homeImg {
+  height: 2em;
+  width: 2em;
+  fill: $secondary-color;
+  margin-top: 0.5em;
+}
+
+#homeImg:hover {
+  fill: $dark-secondary;
+}
+
+#homeLink {
+  height: 100%;
+  //display: flex;
+  //align-items: flex-end;
+}
+
+#header {
+  width: calc(50% + 6em);
+  margin: 1em auto 0 auto;
+  display: flex;
+  justify-content: space-between;
+  height: 2.5rem;
 }

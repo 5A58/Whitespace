@@ -1,14 +1,17 @@
+@import "./variables";
+
 .submitButton {
   border: none;
   outline: none;
-  color: white;
-  border-radius: 10%;
-  background: #1B95E0;
+  color: $font-color;
+  border-radius: 5px;
+  background: $secondary-color;
   padding: 1em;
 }
 
 .submitButton:hover {
-  opacity: 0.7;
+  //opacity: 0.7;
+  background: $dark-secondary;
 }
 
 .bodyField {
