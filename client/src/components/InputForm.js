@@ -5,7 +5,7 @@ class InputForm extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {inputValue: props.val};
+        this.state = {inputValue: props.val, error: "", errorMessage: "A post must contain non-whitespace characters"};
 
         this.addPost = this.addPost.bind(this);
         this.updatePost = this.updatePost.bind(this);
@@ -18,6 +18,7 @@ class InputForm extends Component {
         let postBody = postField.value;
 
         if(postBody.trim().length === 0) {
+            this.setState({error: this.state.errorMessage});
             return false;
         }
 
@@ -59,7 +60,8 @@ class InputForm extends Component {
         let postBody = postField.value;
 
         if(postBody.trim().length === 0) {
-            return;
+            this.setState({error: this.state.errorMessage});
+            return false;
         }
 
         // Create XHR
@@ -92,7 +94,7 @@ class InputForm extends Component {
     }
 
     handleChange = (e) => {
-        this.setState({inputValue: e.target.value});
+        this.setState({inputValue: e.target.value, error: ""});
     }
 
 
@@ -119,6 +121,7 @@ class InputForm extends Component {
                         <br/>
                         <button id={"formSubmit"} className={"submitButton"}>{this.props.type}</button>
                         <p id={"charCounter"}>{this.state.inputValue.length}</p>
+                        <p id={"errorMessage"}>{this.state.error}</p>
                     </form>
                 </div>
             </div>

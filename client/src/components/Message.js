@@ -82,8 +82,8 @@ class Message extends Component {
                 <svg onClick={this.arrowClicked} className={"arrow"} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
                 {(this.state.renderOptions === false) ? null :
                     <div className={"optionsContainer"}>
-                        <p className={"option"} onClick={this.handleDelete}>Delete</p>
                         <p className={"option"} onClick={this.handleUpdate}>Edit</p>
+                        <p className={"option"} onClick={this.handleDelete}>Delete</p>
                     </div>
                 }
             </div>
