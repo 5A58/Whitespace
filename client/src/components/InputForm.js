@@ -111,13 +111,16 @@ class InputForm extends Component {
 
     render() {
         return (
-            <div id={"formContainer"} onClick={this.handleDivClick}>
-                <form onClick={(e) => e.stopPropagation()} className={"postForm"} action={this.props.route} method="POST" onSubmit={this.handleSubmit}>
-                    <textarea className={"bodyField"} ref="textfield" id={this.props.type.toLowerCase() + "Body"} rows="4" cols="50"
+            <div id={"formBG"} onClick={this.handleDivClick}>
+                <div id={"formContainer"}>
+                    <form onClick={(e) => e.stopPropagation()} className={"postForm"} action={this.props.route} method="POST" onSubmit={this.handleSubmit}>
+                    <textarea className={"bodyField"} ref="textfield" id={this.props.type.toLowerCase() + "Body"} rows="6" cols="60" maxlength="200"
                               name="postBody" placeholder="Write post here..." value={this.state.inputValue} onChange={this.handleChange}/>
-                    <br/>
-                    <button className={"submitButton"}>{this.props.type}</button>
-                </form>
+                        <br/>
+                        <button id={"formSubmit"} className={"submitButton"}>{this.props.type}</button>
+                        <p id={"charCounter"}>{this.state.inputValue.length}</p>
+                    </form>
+                </div>
             </div>
         )
     }
