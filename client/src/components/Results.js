@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
 import update from 'react-addons-update';
-import socketIOClient from "socket.io-client";
 import InputForm from "./InputForm";
 import Message from "./Message";
 import "../styles/results.scss";
 import "../styles/input.scss";
 
 class Results extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {posts: [],
             updatePostID: -1,
             updateText: "",
-            endpoint: "localhost:5000",
             renderUpdateField: false,
             renderSubmitField: false,
             hideOverflow: false};
 
+        this.sendPost = this.sendPost.bind(this);
+        this.sendPostUpdate = this.sendPostUpdate.bind(this);
+        this.sendPostDelete = this.sendPostDelete.bind(this);
         this.addNewPost = this.addNewPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.updatePost = this.updatePost.bind(this);
@@ -27,12 +28,37 @@ class Results extends Component {
     }
 
     componentDidMount() {
-        // testing for socket connections
-        const socket = socketIOClient(this.state.endpoint);
+        this.props.socket.on('new post', (post) => {
+            this.addNewPost(post, true);
+        });
+
+        this.props.socket.on('update post', (postID, newBody) => {
+            this.updatePost(postID, newBody, true);
+        });
+
+        this.props.socket.on('delete post', (postID) => {
+            this.deletePost(postID, true);
+        });
+
         this.retrievePosts();
         document.querySelector("body").style = "background: #e6ecf0;";
     }
 
+    // -------- Socket methods for passing data between clients --------
+    // Send post data so server can distribute to other clients
+    sendPost = (post) => {
+        this.props.socket.emit('new post', post);
+    }
+
+    sendPostUpdate = (postID, newBody) => {
+        this.props.socket.emit('update post', postID, newBody);
+    }
+
+    sendPostDelete = (postID) => {
+        this.props.socket.emit('delete post', postID);
+    }
+
+    // -------- CRUD functionality for posts --------
     retrievePosts() {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", "/posts", true);
@@ -50,13 +76,20 @@ class Results extends Component {
         xhr.send();
     }
 
-    addNewPost(post) {
+    addNewPost(post, fromOtherClient = false) {
         this.setState({
             posts: this.state.posts.concat([post])
         });
+
+        if(!fromOtherClient) {
+            this.sendPost(post);
+        }
+        console.log("Added");
     }
 
-    deletePost(postID) {
+    deletePost(postID, fromOtherClient = false) {
+        console.log("Deleting");
+        console.log(this.state.posts);
             let index = this.state.posts.map(x => {
                 return x._id;
             }).indexOf(postID);
@@ -66,9 +99,14 @@ class Results extends Component {
                     posts: this.state.posts.filter((_, i) => i !== index)
                 });
             }
+
+            if(!fromOtherClient) {
+                this.sendPostDelete(postID);
+            }
+            console.log("Deleted");
     }
 
-    updatePost(postID, newBody) {
+    updatePost(postID, newBody, fromOtherClient = false) {
         let index = this.state.posts.map(x => {
             return x._id;
         }).indexOf(postID);
@@ -80,8 +118,14 @@ class Results extends Component {
                 updateText: ""
             })
         }
+
+        if(!fromOtherClient) {
+            this.sendPostUpdate(postID, newBody);
+        }
+        console.log("Updated");
     }
 
+    // -------- Control content that gets rendered --------
     updateClicked(postID, body) {
         this.toggleRenderUpdate();
         this.setState({updatePostID: postID, updateText: body});
@@ -109,8 +153,9 @@ class Results extends Component {
         }
     }
 
-
     render() {
+        console.log("Rendering");
+        console.log(this.state.posts);
         const listItems = [].concat(this.state.posts)
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .map((post) =>

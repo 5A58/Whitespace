@@ -26,8 +26,25 @@ const io = socketIO(server);
 
 // Socket connection handler
 io.on("connection", (socket) => {
-    // socket.broadcast.emit('hi');
     console.log(socket.id + " Connected");
+
+    socket.on('new post', (post) => {
+        // Once a 'new post' event is received from a client, send it to the rest of clients
+        console.log(`Received new post from ${socket.id} with body ${post.body}`);
+        socket.broadcast.emit('new post', post);
+    });
+
+    socket.on('update post', (postID, newBody) => {
+        // Once a 'update post' event is received from a client, send new body to the rest of clients
+        console.log(`Received update from ${socket.id} with body ${newBody}`);
+        socket.broadcast.emit('update post', postID, newBody);
+    });
+
+    socket.on('delete post', (postID) => {
+        // Once a 'delete post' event is received from a client, send ID so the rest of clients can update state
+        console.log(`Received delete from ${socket.id} for post ${postID}`);
+        socket.broadcast.emit('delete post', postID);
+    });
 
     socket.on('disconnect', () => {
         console.log(socket.id + " Disconnected");
