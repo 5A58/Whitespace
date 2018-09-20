@@ -1,0 +1,49 @@
+#bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  //background: #009FFF;
+  background: url("https://www.nasa.gov/sites/default/files/thumbnails/image/assasn-14li_banner.jpg") no-repeat center center fixed;
+  //background: url("https://briankoberlein.com/wp-content/uploads/back_hole_galaxies_Black_Hole_Wallpaper__wallfox_net.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#not-found-title, #not-found-text {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  font-weight: bold;
+}
+
+#not-found-title {
+  font-size: 8em;
+  letter-spacing: 0.1em;
+  top: 20%;
+  color: white;
+}
+
+#not-found-text {
+  top: 40%;
+  font-size: 1.5em;
+  color: black;
+}
+
+// Adopted from ThatGuySam's CodePen
+// https://codepen.io/ThatGuySam/pen/CytDA
+.hit-the-floor {
+  color: #fff;
+  font-size: 12em;
+  font-weight: bold;
+  font-family: Helvetica;
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);
+}
+
+.hit-the-floor {
+  text-align: center;
+}

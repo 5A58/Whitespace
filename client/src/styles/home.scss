@@ -142,3 +142,18 @@ $anim-text-offset: 1em;
   }
 }
 
+@media only screen and (max-device-width: 600px) {
+  #title {
+    font-size: 3em;
+  }
+
+  #description {
+    font-size: 0.8em;
+  }
+
+  #resultsNav {
+    font-size: 1em;
+  }
+
+}
+
