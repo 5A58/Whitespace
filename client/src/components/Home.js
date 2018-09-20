@@ -131,7 +131,7 @@ class Home extends Component {
                 <div id={"content"}>
                     <div id={"titleContent"}>
                         <p id={"title"}>Whitespace</p>
-                        <p id={"description"}>Post news about your life for the world to see</p>
+                        <p id={"description"}>Post updates about your life in 200 characters or less</p>
                         <NavLink id={"resultsNav"} className={"button"} to="/results">
                             <span className="button__mask"></span>
                             <span className="button__text">Get Started</span>

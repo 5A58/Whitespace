@@ -12,7 +12,12 @@ import './App.scss';
 class App extends Component {
     constructor() {
         super();
-        this.state = {endpoint: "localhost:5000"};
+        let ip = process.env.IP || 'http://localhost';
+        let port = process.env.PORT || 5000;
+        // console.log(ip);
+        // console.log(port);
+        // console.log();
+        this.state = {endpoint: `${window.location.hostname}`};
     }
     render() {
         // testing for socket connections

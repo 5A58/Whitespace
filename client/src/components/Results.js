@@ -84,12 +84,9 @@ class Results extends Component {
         if(!fromOtherClient) {
             this.sendPost(post);
         }
-        console.log("Added");
     }
 
     deletePost(postID, fromOtherClient = false) {
-        console.log("Deleting");
-        console.log(this.state.posts);
             let index = this.state.posts.map(x => {
                 return x._id;
             }).indexOf(postID);
@@ -103,7 +100,6 @@ class Results extends Component {
             if(!fromOtherClient) {
                 this.sendPostDelete(postID);
             }
-            console.log("Deleted");
     }
 
     updatePost(postID, newBody, fromOtherClient = false) {
@@ -122,7 +118,6 @@ class Results extends Component {
         if(!fromOtherClient) {
             this.sendPostUpdate(postID, newBody);
         }
-        console.log("Updated");
     }
 
     // -------- Control content that gets rendered --------
@@ -154,8 +149,6 @@ class Results extends Component {
     }
 
     render() {
-        console.log("Rendering");
-        console.log(this.state.posts);
         const listItems = [].concat(this.state.posts)
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .map((post) =>
