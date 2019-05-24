@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import "../styles/message.scss";
-import InputForm from "./InputForm";
 
 class Message extends Component {
     constructor() {

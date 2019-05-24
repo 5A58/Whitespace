@@ -4,9 +4,14 @@ const express = require('express'),
     mongoose = require("mongoose"),
     http = require("http"),
     socketIO  = require("socket.io"),
-    Post = require("./models/post"),
-    port = process.env.PORT || 5000;
+    Post = require("./models/post");
 
+// Read environment variables from file instead of host
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+
+const port = process.env.PORT;
 const app = express();
 
 // User body-parser to extract request body
